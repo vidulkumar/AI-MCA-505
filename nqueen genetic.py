@@ -28,6 +28,7 @@ class NQueen(object):
         '''
         
         cb = np.array([x for x in range(0,self.n)])
+        print(cb)
         for x in range(0,self.pNum): 
             random.shuffle(cb)
             self.population[x] = copy.deepcopy(cb)
@@ -224,17 +225,23 @@ class NQueen(object):
         print("initial gen")
         self.printPop()
         print("-----end init-----")
-        e = []
+        e = [] # to save error 
+        g = [] # to save error with that gen
         temp_e = 0
-        
+        a=1
+        b =1
         x = 0
         for gen in range(0,self.gens):
             Act_Count, temp_e = self.fitness()
-            e.append(temp_e)
+            if gen == b:
+                e.append(temp_e)
+                g.append(gen)
+                b = a + b
+                a = gen 
             
-            x= gen
+            
             if self.errorZero:
-                
+                x= gen
                 break
 
             if self.equal(Act_Count,Prev_Act_Count):    
@@ -251,15 +258,13 @@ class NQueen(object):
             if self.errorZero:
                 print(self.population[i],"\n------------")
                 break
-        z = []
-        factor = len(e)/100
-        z.append(e[0])
-        for i in range(0,len(e),int(factor)-1):
-            z.append(e[i])
-        plt.plot(z)
+        
+        plt.plot(g,e)
+        plt.ylabel("Average Attack  ----->")
+        plt.xlabel("generation  ----->")
         plt.show()
 
-        print("-----end final------")
+        print("-----final Population------")
         self.printPop()
 
 
