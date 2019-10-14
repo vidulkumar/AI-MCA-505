@@ -7,17 +7,17 @@ class tictac(object):
     def __init__(self):
         pass
 
-    def resultmax(self,A,action):
+    def resultmax(self,A,action): # 2 means CPU plays 
         state = copy.copy(A)
         state[action] = 2
         return state
 
-    def resultmin(self,A,action):
+    def resultmin(self,A,action): # 1 means Player plays
         state = copy.copy(A)
         state[action] = 1
         return state
 
-    def terminalTest(self,A):
+    def terminalTest(self,A): 
         pos = -1 
         
         if A[0] != 0 and ((A[0]==A[3] and A[3]==A[6]) or (A[0]==A[4] and A[4]==A[8]) or (A[0]==A[1] and A[1]==A[2])):
@@ -33,20 +33,20 @@ class tictac(object):
             pos = 6
         
         if pos == -1:
-            for i in range(0,9):
+            for i in range(0,9): # -2 if it is not filled 
                 if A[i] == 0:
                     return -2
 
         return pos
     
     def utility(self,state,pos):
-        if pos == -1: #space not available 
+        if pos == -1: #space not available  and draw
             return 0
 
-        if state[pos] == 1:
+        if state[pos] == 1: # player made it
             return -1
         else: 
-            return 1
+            return 1      #CPU made it
 
     def maxValue(self,A):
 
@@ -58,7 +58,7 @@ class tictac(object):
         v = -math.inf
 
         for a in range(0,9):
-            if state[a]==0:
+            if state[a]==0:  # action if space was empty ie neither 0 or 1
                 v = max(v,self.minValue(self.resultmax(state,a)))
             if v == 1:
                 return v
@@ -84,8 +84,8 @@ class tictac(object):
 
 
     def minimax(self,state):
-        maxval = -3
-        maxa = -3
+        maxval = -3 # to initialize final value will  be 0 ,1 or -1 ( draw , win , or loose)
+        maxa = -3   # action which gave maximum value
 
         #print("in minimax ",state)
 
@@ -109,7 +109,7 @@ class tictac(object):
     
     def display(self,state):
 
-        l = []
+        l = [] # to transform list of 0,1,2 to ' ','*' and 'o' 
 
         for i in range(0,9):
             if state[i]== 0:
@@ -125,14 +125,14 @@ class tictac(object):
         print('-----|-----|------')
         print(' ',l[6],' | ',l[7],' | ',l[8],' ')
 
-    def moveInp(self,state):
+    def moveInp(self,state): # to take imput from player
         move = int(input("Enter your  move .. "))
         while state[move] != 0:
             move = int(input(" Invalid! input Enter your  move .. "))
 
         return move
 
-    def game(self,state):
+    def game(self,state): # game after first input from player
 
         while True:
             move = self.minimax(state)
@@ -170,7 +170,7 @@ class tictac(object):
 
 
 
-    def gamePlay(self):
+    def gamePlay(self): #main funtion to start game
 
     
         while True:
@@ -210,7 +210,7 @@ class tictac(object):
 
                   
 
-s = [0,0,0,0,0,0,0,0,0]
+#s = [0,0,0,0,0,0,0,0,0]
 tmp = tictac()
 tmp.gamePlay()
 #print(tmp.minimax(s))
